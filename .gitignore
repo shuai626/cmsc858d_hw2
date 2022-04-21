@@ -7,3 +7,5 @@ querysa
 *.data
 
 *.o
+
+*.result

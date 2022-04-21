@@ -18,7 +18,7 @@ int query_sa(string in, string qs, string out, bool simpaccel) {
 
   // Read each query from queries
   ifstream f(qs);
-  ofstream res(out);
+  ofstream res(out+".result");
   string line;
 
   while (!f.eof()) {
