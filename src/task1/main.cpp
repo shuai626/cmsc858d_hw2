@@ -33,6 +33,8 @@ int build_sa(int k, string in, string out) {
   }
   genome += "$";
 
+  auto start = chrono::high_resolution_clock::now();
+
   // Build the suffix array
   sdsl::csa_bitcompressed<> sa;
 
@@ -57,11 +59,17 @@ int build_sa(int k, string in, string out) {
     }
   }
 
+  auto stop = chrono::high_resolution_clock::now();
+
+  auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+
   // Write the string and suffix array (and secondary index) to binary file
   ofstream os(out+".data", ios::binary);
   cereal::BinaryOutputArchive archive( os );
   archive( genome, k, index);
   store_to_file(sa, out+".sa");
+
+  cout << "Duration: " << duration.count() << " microseconds" << endl;
 
   return 0;
 }

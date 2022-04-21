@@ -31,6 +31,8 @@ int query_sa(string in, string qs, string out, bool simpaccel) {
 
       string pref = p.substr(0, k);
 
+      auto start = chrono::high_resolution_clock::now();
+
       map<string, tuple<int, int>>::iterator it;
 
       it = index.find(pref);
@@ -46,6 +48,11 @@ int query_sa(string in, string qs, string out, bool simpaccel) {
       // Find searchable interval range for query
       int left = bisect_left(i, j, p, genome, &sa, simpaccel);
       int right = bisect_right(i, j, p, genome, &sa, simpaccel);
+
+      auto stop = chrono::high_resolution_clock::now();
+      auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+
+      cout << line.substr(1) << ": " << duration.count() << " microseconds"<< endl;
 
       // Write output to a new file
       res << line.substr(1) << " " << (right - left);
