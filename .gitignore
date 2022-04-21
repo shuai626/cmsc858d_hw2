@@ -1,0 +1,9 @@
+buildsa
+
+querysa
+
+*.sa
+
+*.data
+
+*.o

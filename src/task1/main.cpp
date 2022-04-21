@@ -1,123 +1,6 @@
-#include <sdsl/suffix_arrays.hpp> 
-#include <cereal/types/map.hpp>
-#include <cereal/types/string.hpp>
-#include <cereal/types/tuple.hpp>
-#include <cereal/archives/binary.hpp>
-#include <stdlib.h> 
-#include <iostream>
-#include <fstream>
-#include <string.h>
-#include <string>
+#include "utils.h"
 
 using namespace std;
-
-// Return index i such that all e in sa[:i] have e < x, and all e in a[i:] have e >= x.
-int bisect_left(string p, string t, sdsl::csa_bitcompressed<>* sa) {
-  int l = 0;
-  int r = sa->size();
-
-  while (l < r) {
-    int c = floor((l+r)/2);
-
-    bool pgt = false;
-
-    int x = 0;
-
-    while (x < p.length() && (*sa)[c]+x < t.length()) {
-      if (p[x] > t[(*sa)[c]+x]) {
-        pgt = true;
-        break;
-      }
-      else if (p[x] < t[(*sa)[c]+x]) {
-        break;
-      }
-
-      x += 1;
-    }
-
-    if (pgt) {
-      l = c + 1;
-    }
-    else {
-      r = c;
-    }
-  }
-  return l;
-}
-
-// Return index i such that all e in sa[:i] have e <= p, and all e in sa[i:] have e > x
-int bisect_right(string p, string t, sdsl::csa_bitcompressed<>* sa) {
-  int l = 0;
-  int r = sa->size();
-
-  while (l < r) {
-    int c = floor((l+r)/2);
-
-    bool plt = false;
-
-    int x = 0;
-
-    while (x < p.length() && (*sa)[c]+x < t.length()) {
-      if (p[x] < t[(*sa)[c]+x]) {
-        plt = true;
-        break;
-      }
-      else if (p[x] > t[(*sa)[c]+x]) {
-        break;
-      }
-
-      x += 1;
-    }
-
-    if (plt) {
-      r = c;
-    }
-    else {
-      l = c+1;
-    }
-  }
-  return l;
-}
-
-int binary_search(int i, int j, string p, string t, sdsl::csa_bitcompressed<>* sa) {
-  int l = i;
-  int r = j;
-
-  // Binary search algorithm
-  while (true) {
-    int c = floor ((l+r)/2);
-
-    // Determine whether p < T[sa[c]:] starting from LHS
-    bool plt = true;
-
-    int x = 0;
-
-    while (x < p.length() && (*sa)[c]+x < t.length()) {
-      if (p[x] < t[(*sa)[c]+x]) {
-        break;
-      }
-      else if (p[x] > t[(*sa)[c]+x]) {
-        plt = false;
-        break;
-      }
-
-      x += 1;
-    }
-
-    if (plt) {
-      if (c == l + 1) {
-        return c;
-      }
-      r = c;
-    }
-    else {
-      if (c == r - 1) {
-        return r;
-      }
-      l = c;
-    }
-  }
-}
 
 int build_sa(int k, string in, string out) {
   // Given FASTA file, read the entire file into an in-memory string
@@ -164,8 +47,8 @@ int build_sa(int k, string in, string out) {
 
       if ( index.find(kmer) == index.end() ) {
         // Find searchable interval range and store result in index map
-        int left = bisect_left(kmer, genome, &sa);
-        int right = bisect_right(kmer, genome, &sa);
+        int left = bisect_left(0, sa.size(), kmer, genome, &sa, false);
+        int right = bisect_right(0, sa.size(), kmer, genome, &sa, false);
 
         tuple<int,int> x {left, right};
 
@@ -175,9 +58,9 @@ int build_sa(int k, string in, string out) {
   }
 
   // Write the string and suffix array (and secondary index) to binary file
-  std::ofstream os(out, std::ios::binary);
+  ofstream os(out+".data", ios::binary);
   cereal::BinaryOutputArchive archive( os );
-  archive( genome, index);
+  archive( genome, k, index);
   store_to_file(sa, out+".sa");
 
   return 0;

@@ -10,4 +10,4 @@ make: main.o
 	$(CC) $(CFLAGS) -c -o  $@ $<
 
 clean: 
-	rm *.o buildsa
+	rm *.o buildsa *.data *.sa
