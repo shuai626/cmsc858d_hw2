@@ -18,4 +18,6 @@ In creating `buildsa` and `querysa`, the following resources were consulted.
 
 6. [Reference slide 2 for Suffix Array Full Text Indexing](http://www.biocomp.unibo.it/piero/P4B/2014-2015/slides/sarray.pdf)
 
-7. [Python source code for bisect_left and bisect_right](https://svn.python.org/projects/python/branches/pep-0384/Lib/bisect.py)
+7. [Reference slide 3 for Suffix Array Full Text Indexing](https://rob-p.github.io/CSE549F17/lectures/Lec05.pdf)
+
+8. [Python source code for bisect_left and bisect_right](https://svn.python.org/projects/python/branches/pep-0384/Lib/bisect.py)

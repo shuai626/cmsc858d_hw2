@@ -9,3 +9,7 @@ querysa
 *.o
 
 *.result
+
+*.out
+
+*.timing
