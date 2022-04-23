@@ -38,7 +38,7 @@ int query_sa(string in, string qs, string out, bool simpaccel) {
       it = index.find(pref);
 
       int i = 0;
-      int j = 0;
+      int j = sa.size();
       // If prefix exists in table, set starting interval to [i, j)
       if ( it != index.end() ) {
         i = get<0>(it->second);
@@ -46,8 +46,8 @@ int query_sa(string in, string qs, string out, bool simpaccel) {
       }
 
       // Find searchable interval range for query
-      int left = bisect_left(i, j, p, genome, &sa, simpaccel);
-      int right = bisect_right(i, j, p, genome, &sa, simpaccel);
+      int left = bisect_left(i, j, p, genome, &sa, simpaccel, k);
+      int right = bisect_right(i, j, p, genome, &sa, simpaccel, k);
 
       auto stop = chrono::high_resolution_clock::now();
       auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);

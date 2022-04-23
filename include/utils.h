@@ -13,11 +13,11 @@
 using namespace std;
 
 // Return index i such that all e in sa[:i] have e < x, and all e in a[i:] have e >= x.
-int bisect_left(int i, int j, string p, string t, sdsl::csa_bitcompressed<>* sa, bool simpaccel) {
+int bisect_left(int i, int j, string p, string t, sdsl::csa_bitcompressed<>* sa, bool simpaccel, int k) {
   int l = i;
   int r = j;
-  int lcp_lp = 0;
-  int lcp_rp = 0;
+  int lcp_lp = k;
+  int lcp_rp = k;
 
   while (l < r) {
     int c = floor((l+r)/2);
@@ -54,11 +54,11 @@ int bisect_left(int i, int j, string p, string t, sdsl::csa_bitcompressed<>* sa,
 }
 
 // Return index i such that all e in sa[:i] have e <= p, and all e in sa[i:] have e > x
-int bisect_right(int i, int j, string p, string t, sdsl::csa_bitcompressed<>* sa, bool simpaccel) {
+int bisect_right(int i, int j, string p, string t, sdsl::csa_bitcompressed<>* sa, bool simpaccel, int k) {
   int l = i;
   int r = j;
-  int lcp_lp = 0;
-  int lcp_rp = 0;
+  int lcp_lp = k;
+  int lcp_rp = k;
 
   while (l < r) {
     int c = floor((l+r)/2);

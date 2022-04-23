@@ -10,4 +10,4 @@ make: main.o
 	$(CC) $(CFLAGS) -c -o  $@ $<
 
 clean: 
-	rm *.o querysa *.result
+	rm *.o querysa *.result *.timing

@@ -49,8 +49,8 @@ int build_sa(int k, string in, string out) {
 
       if ( index.find(kmer) == index.end() ) {
         // Find searchable interval range and store result in index map
-        int left = bisect_left(0, sa.size(), kmer, genome, &sa, false);
-        int right = bisect_right(0, sa.size(), kmer, genome, &sa, false);
+        int left = bisect_left(0, sa.size(), kmer, genome, &sa, false, 0);
+        int right = bisect_right(0, sa.size(), kmer, genome, &sa, false, 0);
 
         tuple<int,int> x {left, right};
 
